@@ -1,0 +1,966 @@
+:root {
+  --bg: #ffffff;
+  --surface: #fbf7f5;
+  --surface-strong: #f4ebe8;
+  --ink: #201816;
+  --muted: #756966;
+  --soft: #a99c98;
+  --line: #eadfdb;
+  --rose: #c97872;
+  --rose-dark: #9d514b;
+  --sage: #8f9b83;
+  --sand: #c7aa8a;
+  --shadow: 0 18px 60px rgba(65, 38, 32, 0.12);
+  --radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 352px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.control-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  border-right: 1px solid var(--line);
+  background: #fff;
+  padding: 24px;
+}
+
+.brand-block {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius);
+  color: #fff;
+  background: linear-gradient(135deg, #1f1715, #b86c65);
+  font-size: 24px;
+  font-weight: 700;
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+.brand-block h1 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: 0;
+}
+
+.brand-block p,
+.workspace-header p,
+.safe-note,
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: 13px;
+}
+
+.control-section {
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.control-section h2 {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.upload-box {
+  display: grid;
+  place-items: center;
+  min-height: 176px;
+  border: 1px dashed #d7c7c2;
+  border-radius: var(--radius);
+  background: var(--surface);
+  text-align: center;
+  padding: 20px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.upload-box:hover {
+  border-color: var(--rose);
+  background: #fff8f6;
+}
+
+.upload-box input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.upload-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  color: var(--rose-dark);
+  background: #f4dedb;
+}
+
+svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.primary-button svg,
+.secondary-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.primary-button svg {
+  fill: currentColor;
+  stroke: none;
+}
+
+.upload-title {
+  display: block;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.upload-hint {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.photo-preview {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+.photo-preview img {
+  width: 72px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+
+.text-button {
+  border: 0;
+  color: var(--rose-dark);
+  background: transparent;
+  text-align: left;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--ink);
+  padding: 0 12px;
+  outline: none;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px rgba(201, 120, 114, 0.15);
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.segmented label {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--muted);
+  background: #fff;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+}
+
+.segmented label.is-selected {
+  color: #fff;
+  border-color: var(--rose-dark);
+  background: var(--rose-dark);
+}
+
+.upload-box:focus-within,
+.segmented label:focus-within,
+.primary-button:focus-visible,
+.secondary-button:focus-visible,
+.tab:focus-visible,
+.text-button:focus-visible {
+  outline: 3px solid rgba(201, 120, 114, 0.28);
+  outline-offset: 2px;
+}
+
+.action-stack {
+  display: grid;
+  gap: 10px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  border-radius: var(--radius);
+  font-weight: 750;
+}
+
+.primary-button {
+  border: 0;
+  color: #fff;
+  background: #1f1715;
+}
+
+.secondary-button {
+  border: 1px solid var(--line);
+  color: var(--ink);
+  background: #fff;
+}
+
+.secondary-button:disabled {
+  cursor: not-allowed;
+  color: var(--soft);
+  background: #f6f1ef;
+}
+
+.safe-note {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.workspace {
+  min-width: 0;
+  background:
+    linear-gradient(90deg, rgba(244, 235, 232, 0.65), rgba(255, 255, 255, 0) 380px),
+    #fff;
+  padding: 26px 30px;
+}
+
+.workspace-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  max-width: 1280px;
+  margin: 0 auto 22px;
+}
+
+.workspace-header h2 {
+  margin: 0 0 5px;
+  font-size: 24px;
+  line-height: 1.25;
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+.tabs {
+  display: inline-flex;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.tab {
+  min-width: 64px;
+  height: 34px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--muted);
+  background: transparent;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.tab.is-active {
+  color: #fff;
+  background: var(--rose-dark);
+}
+
+.preview-stage {
+  max-width: 1280px;
+  min-height: calc(100vh - 112px);
+  margin: 0 auto;
+  display: grid;
+  place-items: start center;
+}
+
+.empty-state {
+  width: min(560px, 100%);
+  margin-top: 110px;
+  text-align: center;
+  padding: 40px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  color: var(--rose-dark);
+  background: #f4dedb;
+}
+
+.empty-icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.cards-viewport {
+  width: min(100%, 1160px);
+  display: grid;
+  justify-items: center;
+  overflow: auto;
+  padding-bottom: 28px;
+}
+
+.result-card {
+  display: none;
+}
+
+.result-card.is-active {
+  display: block;
+}
+
+.analysis-card {
+  width: 1080px;
+  min-height: 1840px;
+  background: #fffdfc;
+  color: #241b19;
+  border: 1px solid #efe4e0;
+  box-shadow: var(--shadow);
+  transform-origin: top left;
+}
+
+.card-inner {
+  padding: 34px;
+}
+
+.card-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+  margin-bottom: 24px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 46px;
+  line-height: 1.1;
+  font-family: "Songti SC", "SimSun", serif;
+  letter-spacing: 0;
+}
+
+.card-subtitle {
+  margin: 10px 0 0;
+  color: #6e605c;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.keyword-box {
+  min-width: 270px;
+  text-align: right;
+  color: #6c5f5b;
+  font-size: 17px;
+}
+
+.keyword-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.keyword-pills span,
+.mini-pill {
+  border-radius: 999px;
+  padding: 6px 14px;
+  background: #f5ebe7;
+  color: #6b504b;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 24px;
+}
+
+.portrait-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: #efe7e3;
+}
+
+.portrait-frame.large {
+  height: 690px;
+}
+
+.portrait-frame.medium {
+  height: 480px;
+}
+
+.portrait-frame.small {
+  height: 188px;
+}
+
+.portrait-frame img,
+.thumbnail img,
+.style-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.callout-list {
+  position: absolute;
+  right: 18px;
+  top: 96px;
+  display: grid;
+  gap: 44px;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.42);
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.callout-list span::before {
+  content: "";
+  display: inline-block;
+  width: 86px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.72);
+  margin-right: 10px;
+  transform: translateY(-5px);
+}
+
+.panel {
+  border: 1px solid #efe4e0;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.panel-title {
+  margin: 0;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 24px;
+  line-height: 1.25;
+  font-family: "Songti SC", "SimSun", serif;
+  background: linear-gradient(90deg, #fbf1ee, #fff);
+  border-bottom: 1px solid #efe4e0;
+}
+
+.feature-list {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+}
+
+.feature-row {
+  display: grid;
+  grid-template-columns: 104px 1fr auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.thumbnail {
+  overflow: hidden;
+  height: 104px;
+  border-radius: 7px;
+  background: #f0e6e2;
+}
+
+.feature-row h4,
+.tile h4,
+.advice-item h4,
+.style-summary h4 {
+  margin: 0 0 6px;
+  font-size: 19px;
+}
+
+.feature-row p,
+.tile p,
+.advice-item p,
+.style-summary p,
+.caption,
+.summary-list li {
+  margin: 0;
+  color: #675b57;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.swatches,
+.swatch-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  margin: 26px 0 14px;
+  padding: 12px 16px;
+  text-align: center;
+  font-size: 26px;
+  font-family: "Songti SC", "SimSun", serif;
+  background: linear-gradient(90deg, #fff, #f8eeea, #fff);
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.tile {
+  min-height: 188px;
+  border: 1px solid #efe4e0;
+  border-radius: var(--radius);
+  background: #fff;
+  overflow: hidden;
+}
+
+.tile-image {
+  height: 105px;
+  background: linear-gradient(135deg, #f4dcd7, #f7f1ec);
+}
+
+.tile-body {
+  padding: 12px;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.advice-list {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.advice-item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+}
+
+.advice-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #fff;
+  background: var(--rose);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.product-row,
+.color-row,
+.jewelry-row,
+.hair-row,
+.outfit-row {
+  display: grid;
+  gap: 12px;
+}
+
+.product-row {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.product-item,
+.jewelry-item,
+.hair-item,
+.outfit-item {
+  text-align: center;
+}
+
+.product-box,
+.jewelry-icon,
+.hair-photo,
+.outfit-photo {
+  display: grid;
+  place-items: center;
+  height: 106px;
+  border-radius: var(--radius);
+  border: 1px solid #efe4e0;
+  background: #fff;
+  color: #86615b;
+  font-size: 28px;
+  font-family: "Songti SC", "SimSun", serif;
+  overflow: hidden;
+}
+
+.product-item span,
+.jewelry-item span,
+.hair-item span,
+.outfit-item span {
+  display: block;
+  margin-top: 8px;
+  color: #544945;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.tip-strip {
+  margin-top: 24px;
+  padding: 14px 18px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #6f5f5b;
+  background: #fbf1ee;
+  border-radius: var(--radius);
+  font-size: 16px;
+}
+
+.analysis-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 18px;
+  color: #998b87;
+  font-size: 13px;
+}
+
+.face-line {
+  padding: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.face-line-item {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  color: #4e4441;
+  font-size: 18px;
+}
+
+.face-line-item::before {
+  content: "✓";
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #e7eee2;
+  color: #66775b;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.recommend-band {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.recommend-group {
+  border: 1px solid #efe4e0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+}
+
+.recommend-group h3 {
+  margin: 0;
+  padding: 12px;
+  text-align: center;
+  color: #5b514d;
+  background: #f3ebe6;
+  font-size: 22px;
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+.hair-row {
+  grid-template-columns: repeat(3, 1fr);
+  padding: 12px;
+}
+
+.hair-photo,
+.outfit-photo {
+  height: 190px;
+  background: #f0e6e2;
+}
+
+.hair-item p,
+.outfit-item p {
+  margin: 6px 0 0;
+  color: #756966;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.style-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid #efe4e0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.style-column {
+  background: #fff;
+}
+
+.style-column + .style-column {
+  border-left: 1px solid #efe4e0;
+}
+
+.style-head {
+  text-align: center;
+  padding: 13px 16px;
+  color: #fff;
+  background: linear-gradient(90deg, #b56c68, #d29b95);
+}
+
+.style-column:nth-child(2) .style-head {
+  background: linear-gradient(90deg, #9ca3b4, #c4a8b4);
+}
+
+.style-head h2 {
+  margin: 0;
+  font-size: 31px;
+  line-height: 1.2;
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+.style-head p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.style-main {
+  position: relative;
+  height: 320px;
+}
+
+.style-note {
+  position: absolute;
+  right: 22px;
+  top: 96px;
+  color: #fff;
+  text-align: right;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  font-size: 21px;
+  line-height: 1.55;
+  font-family: "Songti SC", "SimSun", serif;
+}
+
+.style-body {
+  padding: 15px;
+}
+
+.outfit-row {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.outfit-photo {
+  height: 170px;
+}
+
+.style-summary {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 16px;
+  margin-top: 14px;
+  border-top: 1px solid #efe4e0;
+}
+
+.style-summary .portrait-frame {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+}
+
+.summary-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.summary-list li::before {
+  content: "◎";
+  color: var(--rose);
+  margin-right: 6px;
+}
+
+.compact-section {
+  margin-top: 18px;
+}
+
+.color-row {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.color-block {
+  padding: 16px;
+  border: 1px solid #efe4e0;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+.color-block h4 {
+  margin: 0 0 10px;
+  font-size: 17px;
+}
+
+@media (max-width: 1180px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .control-panel {
+    position: relative;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .workspace {
+    padding: 22px 16px;
+  }
+}
+
+@media (max-width: 760px) {
+  .control-panel {
+    padding: 18px;
+  }
+
+  .workspace-header {
+    display: grid;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .tab {
+    flex: 1;
+    min-width: 0;
+  }
+
+}

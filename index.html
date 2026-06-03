@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI个人形象四维分析图卡生成器</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="control-panel" aria-label="生成控制台">
+        <div class="brand-block">
+          <div class="brand-mark">形</div>
+          <div>
+            <h1>AI个人形象四维分析图卡生成器</h1>
+            <p>本地模板 MVP：照片 + 手选风格，生成四套形象参考长图。</p>
+          </div>
+        </div>
+
+        <section class="control-section">
+          <h2>上传照片</h2>
+          <label class="upload-box" for="photoInput">
+            <input id="photoInput" type="file" accept="image/*" />
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 16V4m0 0 4.5 4.5M12 4 7.5 8.5M5 20h14a2 2 0 0 0 2-2v-3.5M3 14.5V18a2 2 0 0 0 2 2" /></svg>
+            </span>
+            <span class="upload-title">选择一张正脸照片</span>
+            <span class="upload-hint">建议清晰、无遮挡、自然光</span>
+          </label>
+          <div class="photo-preview" id="photoPreview" hidden>
+            <img id="previewImage" alt="已上传的人像照片" />
+            <button class="text-button" id="replacePhotoButton" type="button">重新选择</button>
+          </div>
+        </section>
+
+        <section class="control-section">
+          <h2>客户信息</h2>
+          <label class="field">
+            <span>姓名/昵称</span>
+            <input id="clientName" type="text" value="形象客户" maxlength="12" />
+          </label>
+          <label class="field">
+            <span>年龄段</span>
+            <select id="ageRange">
+              <option value="25-30">25-30</option>
+              <option value="30-35" selected>30-35</option>
+              <option value="35-40">35-40</option>
+              <option value="40+">40+</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>主要场景</span>
+            <select id="scenario">
+              <option value="daily" selected>日常通勤</option>
+              <option value="business">商务成交</option>
+              <option value="social">社交约会</option>
+              <option value="camera">拍摄上镜</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="control-section">
+          <h2>风格方向</h2>
+          <div class="segmented" role="radiogroup" aria-label="风格方向">
+            <label class="is-selected"><input type="radio" name="styleType" value="natural" checked />自然清透</label>
+            <label><input type="radio" name="styleType" value="cool" />清冷简约</label>
+            <label><input type="radio" name="styleType" value="sweet" />甜美温柔</label>
+            <label><input type="radio" name="styleType" value="premium" />高级通勤</label>
+          </div>
+        </section>
+
+        <div class="action-stack">
+          <button class="primary-button" id="generateButton" type="button">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.7 5.2L19 10l-5.3 1.8L12 17l-1.7-5.2L5 10l5.3-1.8L12 3Zm7 11 .9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9L19 14ZM5.5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2Z" /></svg>
+            生成四套图卡
+          </button>
+          <button class="secondary-button" id="downloadCurrentButton" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" /></svg>
+            导出当前图卡
+          </button>
+          <button class="secondary-button" id="downloadAllButton" type="button" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7h11v13H8zM5 17H4a1 1 0 0 1-1-1V4h13v1" /></svg>
+            批量导出四张
+          </button>
+        </div>
+
+        <p class="safe-note">当前根据手动选择的风格方向和固定规则模板生成，尚未接入视觉识别模型；结果仅作形象风格参考。</p>
+      </aside>
+
+      <section class="workspace">
+        <header class="workspace-header">
+          <div>
+            <h2>四维图卡结果</h2>
+            <p id="statusText" aria-live="polite">请先上传照片并生成结果。</p>
+          </div>
+          <nav class="tabs" aria-label="图卡类型">
+            <button class="tab is-active" type="button" data-card="makeup">妆容</button>
+            <button class="tab" type="button" data-card="image">形象</button>
+            <button class="tab" type="button" data-card="hair">发型</button>
+            <button class="tab" type="button" data-card="outfit">穿搭</button>
+          </nav>
+        </header>
+
+        <div class="preview-stage">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 7.5A2.5 2.5 0 0 1 6.5 5h11A2.5 2.5 0 0 1 20 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5v-9Z" /><path d="m4 15 4.5-4.5 4 4 2-2L20 18" /><path d="M15.5 8.5h.01" /></svg>
+            </div>
+            <h3>上传照片后生成四套长图</h3>
+            <p>图卡会在这里预览，可切换妆容、形象、发型、穿搭四个结果。</p>
+          </div>
+          <div class="cards-viewport" id="cardsViewport" hidden>
+            <article class="result-card is-active" id="card-makeup" data-card="makeup" aria-label="妆容分析结果"></article>
+            <article class="result-card" id="card-image" data-card="image" aria-label="形象分析结果"></article>
+            <article class="result-card" id="card-hair" data-card="hair" aria-label="发型分析结果"></article>
+            <article class="result-card" id="card-outfit" data-card="outfit" aria-label="穿搭分析结果"></article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
