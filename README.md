@@ -38,6 +38,18 @@ python3 -m http.server 5178
 http://127.0.0.1:5178
 ```
 
+如果 5178 被占用，换一个端口即可：
+
+```bash
+python3 -m http.server 5180
+```
+
+然后打开：
+
+```text
+http://127.0.0.1:5180
+```
+
 测试示例入口：
 
 ```text
@@ -65,6 +77,7 @@ http://127.0.0.1:5178/?demo=1
 ├── styles.css
 ├── app.js
 ├── README.md
+├── REVIEW.md
 └── LICENSE
 ```
 

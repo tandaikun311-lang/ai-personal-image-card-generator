@@ -203,6 +203,9 @@ function setActiveCard(cardKey) {
   state.activeCard = cardKey;
   $$(".tab").forEach((tab) => tab.classList.toggle("is-active", tab.dataset.card === cardKey));
   $$(".result-card").forEach((card) => card.classList.toggle("is-active", card.dataset.card === cardKey));
+  if (state.generatedSnapshot) {
+    scaleCards();
+  }
 }
 
 function renderAllCards() {
