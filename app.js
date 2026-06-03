@@ -1021,7 +1021,7 @@ function delay(ms) {
 
 function scaleCards() {
   const viewport = cardsViewport.getBoundingClientRect().width;
-  const scale = Math.min(1, Math.max(0.32, (viewport - 20) / 1080));
+  const scale = Math.min(1, Math.max(0.24, (viewport - 20) / 1080));
   $$(".result-card").forEach((wrapper) => {
     const card = wrapper.querySelector(".analysis-card");
     if (!card) return;
