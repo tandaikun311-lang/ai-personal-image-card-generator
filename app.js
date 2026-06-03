@@ -3,6 +3,7 @@ const state = {
   activeCard: "makeup",
   generated: false,
   generatedSnapshot: null,
+  uploadToken: 0,
 };
 
 const cardNames = {
@@ -70,10 +71,26 @@ const downloadAllButton = $("#downloadAllButton");
 photoInput.addEventListener("change", async (event) => {
   const file = event.target.files?.[0];
   if (!file) return;
-  state.photoDataUrl = await fileToDataUrl(file);
-  previewImage.src = state.photoDataUrl;
-  photoPreview.hidden = false;
-  markResultsStale("照片已更新，请重新生成四套图卡。");
+  const token = state.uploadToken + 1;
+  state.uploadToken = token;
+  statusText.textContent = "正在读取照片...";
+  try {
+    const dataUrl = await fileToDataUrl(file);
+    if (token !== state.uploadToken) return;
+    await loadImage(dataUrl);
+    if (token !== state.uploadToken) return;
+    state.photoDataUrl = dataUrl;
+    previewImage.src = state.photoDataUrl;
+    photoPreview.hidden = false;
+    markResultsStale("照片已更新，请重新生成四套图卡。");
+  } catch (error) {
+    if (token !== state.uploadToken) return;
+    console.error(error);
+    state.photoDataUrl = "";
+    previewImage.removeAttribute("src");
+    photoPreview.hidden = true;
+    markResultsStale("照片读取失败，请换用 JPG、PNG 或 WebP 图片。");
+  }
 });
 
 $("#clientName").addEventListener("input", () => markResultsStale());
@@ -126,14 +143,21 @@ downloadAllButton.addEventListener("click", async () => {
   if (!state.generatedSnapshot) return;
   downloadCurrentButton.disabled = true;
   downloadAllButton.disabled = true;
+  let successCount = 0;
+  let failedCount = 0;
   try {
     const keys = Object.keys(cardNames);
     for (let index = 0; index < keys.length; index += 1) {
       statusText.textContent = `正在导出第 ${index + 1}/4 张：${cardNames[keys[index]]}...`;
-      await exportCard(keys[index], { preserveStatus: true });
+      const ok = await exportCard(keys[index], { preserveStatus: true });
+      if (ok) {
+        successCount += 1;
+      } else {
+        failedCount += 1;
+      }
       await delay(450);
     }
-    statusText.textContent = "四张图卡已触发下载。";
+    statusText.textContent = failedCount === 0 ? "四张图卡已触发下载。" : `已触发 ${successCount} 张下载，${failedCount} 张导出失败，请逐张重试。`;
   } finally {
     if (state.generatedSnapshot) {
       downloadCurrentButton.disabled = false;
@@ -540,7 +564,7 @@ async function exportCard(cardKey, options = {}) {
   const snapshot = state.generatedSnapshot;
   if (!snapshot) {
     statusText.textContent = "请先重新生成图卡，再导出。";
-    return;
+    return false;
   }
 
   const oldText = statusText.textContent;
@@ -560,9 +584,11 @@ async function exportCard(cardKey, options = {}) {
     if (!options.preserveStatus) {
       statusText.textContent = oldText;
     }
+    return true;
   } catch (error) {
     console.error(error);
     statusText.textContent = "导出失败，请刷新后重试。";
+    return false;
   }
 }
 
