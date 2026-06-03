@@ -76,10 +76,9 @@ photoInput.addEventListener("change", async (event) => {
   markResultsStale("照片已更新，请重新生成四套图卡。");
 });
 
-["clientName", "ageRange", "scenario"].forEach((id) => {
-  $(`#${id}`).addEventListener("input", () => markResultsStale());
-  $(`#${id}`).addEventListener("change", () => markResultsStale());
-});
+$("#clientName").addEventListener("input", () => markResultsStale());
+$("#ageRange").addEventListener("change", () => markResultsStale());
+$("#scenario").addEventListener("change", () => markResultsStale());
 
 $$("input[name='styleType']").forEach((input) => {
   input.addEventListener("change", () => {
